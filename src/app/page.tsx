@@ -15,7 +15,7 @@ export default function Home() {
     if (morador) {
       return <span>Olá, {formatarNomeMorador(morador)}!</span>;
     }
-    return <span>Olá, Desconhecido!!!</span>;
+    return <span>Olá, Estranho!!!</span>;
   }
 
   //object
