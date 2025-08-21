@@ -13,7 +13,7 @@ export default function ListaCondominios() {
     const fetchTodos = async () => {
       const data = await getTodos()
       // Pega apenas os 10 primeiros itens
-      data.splice(10)
+      // data.splice(10)
       console.log(data) 
       setTodos(data) // Atualiza o estado com os dados obtidos
     }

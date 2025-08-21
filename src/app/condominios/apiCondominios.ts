@@ -6,6 +6,6 @@ export interface ITodo {
 }
 
 export const getTodos = async (): Promise<ITodo[]> => {
-  const response = await fetch('https://jsonplaceholder.typicode.com/todos')
+  const response = await fetch('https://fatec.short.gy/condominios')
   return await response.json()
 }
