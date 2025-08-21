@@ -4,14 +4,14 @@
         "nome_condominio": "Fonte de Trevi",
         "created_at": "2025-03-13 19:01:47+00",
         "endereco_condominio": "R. Pedro Virillo, 66 - Jardim Santiago",
-        "uf_condominio": "MG",
+        "uf_condominio": "SP",
         "cidade_condominio": "indaiatuba",
         "tipo_condominio": "Comercial",
         "id_cliente": 1
     },
     {
         "id_condominio": 4,
-        "nome_condominio": "Vila Pobre",
+        "nome_condominio": "Vila Rica",
         "created_at": "2025-03-24 18:24:21.966075+00",
         "endereco_condominio": "Rua dos indaiaas",
         "uf_condominio": "SP",
@@ -54,7 +54,7 @@
         "nome_condominio": "Mariana Joaquina",
         "created_at": "2025-03-26 20:14:57.248748+00",
         "endereco_condominio": "Rua pedro de toledo",
-        "uf_condominio": "sp",
+        "uf_condominio": "SP",
         "cidade_condominio": "indaiatuba",
         "tipo_condominio": "Comercial",
         "id_cliente": 1
@@ -64,16 +64,16 @@
         "nome_condominio": "Village de Amore 2",
         "created_at": "2025-03-27 14:21:46.312929+00",
         "endereco_condominio": "Av. dos Trabalhadores",
-        "uf_condominio": "sp",
+        "uf_condominio": "SP",
         "cidade_condominio": "Sorocaba",
         "tipo_condominio": "Residencial",
         "id_cliente": 1
     },
     {
         "id_condominio": 12,
-        "nome_condominio": "Mariana Condo 2",
+        "nome_condominio": "Mariana Village",
         "created_at": "2025-03-27 14:34:23.010783+00",
-        "endereco_condominio": "Rua Tavare",
+        "endereco_condominio": "Rua Tavares, 232",
         "uf_condominio": "SP",
         "cidade_condominio": "indaiatuba",
         "tipo_condominio": "Residencial",
@@ -84,18 +84,18 @@
         "nome_condominio": "Vila Imperial",
         "created_at": "2025-03-27 17:54:22.185349+00",
         "endereco_condominio": "Rua Imperial",
-        "uf_condominio": "MG",
+        "uf_condominio": "SP",
         "cidade_condominio": "Poços de caldas",
         "tipo_condominio": "Residencial",
         "id_cliente": 2
     },
     {
         "id_condominio": 17,
-        "nome_condominio": "Fonte das trevas Eldorado",
+        "nome_condominio": "Eldorado",
         "created_at": "2025-03-27 19:24:53.383125+00",
         "endereco_condominio": "R pedro Todelo",
-        "uf_condominio": "RS",
-        "cidade_condominio": "Indaiatuba 1",
+        "uf_condominio": "SP",
+        "cidade_condominio": "Indaiatuba",
         "tipo_condominio": "Residencial",
         "id_cliente": 1
     }
