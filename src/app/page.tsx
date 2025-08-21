@@ -1,14 +1,48 @@
+// "use client";
+
+//   type Morador = {
+//     primeiroNome: string;
+//     sobrenome: string;
+//   };
+
+// export default function Home() {
+
+//   function formatarNomeMorador(morador:Morador) {
+//     return morador.primeiroNome + ' ' + morador.sobrenome;
+//   }
+
+//   function obterSaudacao(morador:null | Morador) {
+//     if (morador) {
+//       return <span>Olá, {formatarNomeMorador(morador)}!</span>;
+//     }
+//     return <span>Olá, Desconhecido!!!</span>;
+//   }
+
+//   //object
+//   const morador = {
+//     primeiroNome: 'João',
+//     sobrenome: 'pereira'
+//   };  
+  
+//   return (
+//     <div className="flex flex-col items-center justify-center h-screen">
+//       <h1 className="text-2xl font-semibold">{obterSaudacao(morador)}</h1>
+//     </div>
+//   );
+// };
+
+// CRIAR CARD AZUL
+
 "use client";
 
-  type Morador = {
-    primeiroNome: string;
-    sobrenome: string;
-  };
+type Morador = {
+  primeiroNome: string;
+  sobrenome: string;
+};
 
 export default function Home() {
-
-  function formatarNomeMorador(morador:Morador) {
-    return morador.primeiroNome + ' ' + morador.sobrenome;
+  function formatarNomeMorador(morador: Morador): string {
+    return morador.primeiroNome + " " + morador.sobrenome;
   }
 
   function obterSaudacao(morador:null | Morador) {
@@ -18,16 +52,18 @@ export default function Home() {
     return <span>Olá, Desconhecido!!!</span>;
   }
 
-  //object
-  const morador = {
-    primeiroNome: 'João',
-    sobrenome: 'pereira'
-  };  
-  
+  const morador: Morador = {
+    primeiroNome: "João",
+    sobrenome: "Pereira",
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-2xl font-semibold">{obterSaudacao(morador)}</h1>
+    <div id="principal" className="min-h-screen flex items-center justify-center bg-black">
+      <div id="componente-azul" className="bg-blue-500 text-white rounded-lg p-8 max-w-sm w-full flex items-center justify-center"> {/* card-azul*/}
+        <h1 id="name" className="text-2xl font-bold text-center">
+          {obterSaudacao(morador)}
+        </h1>
+      </div>
     </div>
   );
-};
-
+}

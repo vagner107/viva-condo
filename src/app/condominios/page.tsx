@@ -1,6 +1,26 @@
 "use client";
 
+import { useEffect, useState } from 'react' // hooks
+// useState = Serve para armazenar e atualizar valores dentro de um componente React. Memória interna do componente.
+//useEffect = Serve para executar efeitos colaterais: coisas que acontecem fora do fluxo principal de renderização.
+import{getTodos, ITodo} from "./apiCondominios"
+
 export default function ListaCondominios() {
+
+  const [todos, setTodos] = useState<ITodo[]>([]) // Inicializa o estado com um array vazio
+
+  useEffect(() => {
+    const fetchTodos = async () => {
+      const data = await getTodos()
+      // Pega apenas os 10 primeiros itens
+      data.splice(10)
+      console.log(data) 
+      setTodos(data) // Atualiza o estado com os dados obtidos
+    }
+
+    fetchTodos() // Chama a função fetchTodos
+  }, [])
+
   return (
     <div className="p-6 max-w-full">
       <div className="mb-4 flex items-center justify-between gap-4">
