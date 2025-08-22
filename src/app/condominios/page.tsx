@@ -1,23 +1,24 @@
 "use client";
 
-import { useEffect, useState } from 'react' // hooks
-// useState = Serve para armazenar e atualizar valores dentro de um componente React. Memória interna do componente.
-//useEffect = Serve para executar efeitos colaterais: coisas que acontecem fora do fluxo principal de renderização.
-import{getCondominios, ITodo} from "./apiCondominios"
+import { useEffect, useState } from 'react'  //useState é uma função do React que permite a um componente ter estado interno. 
+// O estado é um valor que, quando muda, faz o React re-renderizar o componente com os novos dados.
+
+import { getCondominios, ICondominio } from '@/services/api-condominios'; //@ alias '../../../services/api-condominios' tsconfig.json
 
 export default function ListaCondominios() {
 
-  const [condominios, setCondominios] = useState<ITodo[]>([]) // Inicializa o estado com um array vazio
+  const [condominios, setCondominios] = useState<ICondominio[]>([]) // Inicializa o estado com um array vazio
 
-  useEffect(() => {
-    const fetchTodos = async () => {
+  useEffect(() => { //hook que executa uma função quando o componente é montado, após a renderização inicial.
+    const buscarCondominios = async () => {
       const data = await getCondominios()
       console.log(data) 
       setCondominios(data) // Atualiza o estado com os dados obtidos
     }
 
-    fetchTodos() // Chama a função fetchTodos
-  }, [])
+    buscarCondominios()
+  }, []) // [] garante que o efeito seja executado apenas uma vez, quando o componente é montado. 
+  // Caso haja alguma váriavel no array, o efeito será executado novamente sempre que essa variável mudar.
 
   return (
     <div className="p-6 max-w-full">
@@ -40,11 +41,25 @@ export default function ListaCondominios() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 bg-white">
-            <tr>
-              <td className="px-4 py-3 text-sm text-gray-700" colSpan={7}>
-                Nenhum condomínio encontrado.
-              </td>
-            </tr>
+            {condominios.length === 0 ? (
+              <tr>
+                <td className="px-4 py-3 text-sm text-gray-700" colSpan={7}>
+                  Nenhum condomínio encontrado.
+                </td>
+              </tr>
+            ) : (
+              condominios.map((condominio, index) => (
+                <tr key={condominio.id_condominio} className="hover:bg-gray-50">
+                  <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{String(index + 1)}</td>
+                  <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{condominio.nome_condominio}</td>
+                   <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{condominio.endereco_condominio}</td>
+                  <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{condominio.cidade_condominio}</td>
+                  <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{condominio.uf_condominio}</td>
+                  <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{condominio.tipo_condominio}</td>
+                  <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500"></td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>

@@ -41,7 +41,7 @@ type Morador = {
 };
 
 export default function Home() {
-  function formatarNomeMorador(morador: Morador): string {
+  function formatarNomeMorador(morador: Morador){
     return morador.primeiroNome + " " + morador.sobrenome;
   }
 
@@ -52,7 +52,7 @@ export default function Home() {
     return <span>Olá, Desconhecido!!!</span>;
   }
 
-  const morador: Morador = {
+  const morador = {
     primeiroNome: "João",
     sobrenome: "Pereira",
   };
