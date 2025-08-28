@@ -59,7 +59,7 @@ export default function Home() {
 
   return (
     <div id="principal" className="min-h-screen flex items-center justify-center bg-black">
-      <div id="componente-azul" className="bg-blue-500 text-white rounded-lg p-8 max-w-sm w-full flex items-center justify-center"> {/* card-azul*/}
+      <div id="componente-azul" className="card-azul"> {/* card-azul*/}
         <h1 id="name" className="text-2xl font-bold text-center">
           {obterSaudacao(morador)}
         </h1>
