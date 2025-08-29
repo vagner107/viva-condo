@@ -4,20 +4,16 @@ import { useEffect, useState } from 'react'  //useState é uma função do React
 import { ICondominio } from '@/services/condominio.service';
 
 export default function ListaCondominios() {
-  console.log("🖥️ [PAGE] Render inicial no CLIENT (navegador)");
   const [condominios, setCondominios]= useState<ICondominio[]>([])
   const [erro, setErro] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   
   useEffect(() => { //hook que executa uma função quando o componente é montado.
-    console.log("⚡ [useEffect]");
     const buscarCondominios = async () => {
-      console.log("📡 [CLIENT] Chamou /api/condominios no navegador");
+      console.log("[CLIENT] Chamou /api/condominios no navegador");
       try {
         const response = await fetch("/api/condominios", { cache: "no-store" });// chama a API e sempre busca dados atualizados
         const {data, success, count, error} = await response.json(); // transforma resposta em JSON
-
-        console.log("📦 [CLIENT] Recebeu dados:", data);
 
         if (!success) throw new Error(error ?? "Erro ao buscar condomínios"); // quando acionado o catch é executado
         setCondominios(data);
