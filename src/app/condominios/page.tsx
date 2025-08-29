@@ -1,23 +1,36 @@
 "use client";
 
 import { useEffect, useState } from 'react'  //useState é uma função do React que permite a um componente ter estado interno. 
-// O estado é um valor que, quando muda, faz o React re-renderizar o componente com os novos dados.
-
-import { getCondominios, ICondominio } from '@/services/api-condominios'; //@ alias '../../../services/api-condominios' tsconfig.json
+import { ICondominio } from '@/services/condominio.service';
 
 export default function ListaCondominios() {
-
-  const [condominios, setCondominios] = useState<ICondominio[]>([]) // Inicializa o estado com um array vazio
-
-  useEffect(() => { //hook que executa uma função quando o componente é montado, após a renderização inicial.
+  console.log("🖥️ [PAGE] Render inicial no CLIENT (navegador)");
+  const [condominios, setCondominios]= useState<ICondominio[]>([])
+  const [erro, setErro] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() => { //hook que executa uma função quando o componente é montado.
+    console.log("⚡ [useEffect]");
     const buscarCondominios = async () => {
-      const data = await getCondominios()
-      console.log(data) 
-      setCondominios(data) // Atualiza o estado com os dados obtidos
-    }
+      console.log("📡 [CLIENT] Chamou /api/condominios no navegador");
+      try {
+        const response = await fetch("/api/condominios", { cache: "no-store" });// chama a API e sempre busca dados atualizados
+        const {data, success, count, error} = await response.json(); // transforma resposta em JSON
+
+        console.log("📦 [CLIENT] Recebeu dados:", data);
+
+        if (!success) throw new Error(error ?? "Erro ao buscar condomínios"); // quando acionado o catch é executado
+        setCondominios(data);
+
+      } catch (e: any) {
+        setErro(e.message ?? "Erro inesperado");
+      } finally {
+        setLoading(false);
+      }      
+    };
 
     buscarCondominios()
-  }, []) // [] garante que o efeito seja executado apenas uma vez, quando o componente é montado. 
+  }, []) // [] = executa apenas uma vez, quando o componente é montado.
   // Caso haja alguma váriavel no array, o efeito será executado novamente sempre que essa variável mudar.
 
   return (
@@ -41,7 +54,19 @@ export default function ListaCondominios() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 bg-white">
-            {condominios.length === 0 ? (
+             {loading ? (
+              <tr>
+                <td colSpan={7} className="px-4 py-3 text-center text-gray-500">
+                  Carregando condomínios...
+                </td>
+              </tr>
+            ) : erro ? (
+              <tr>
+                <td colSpan={7} className="px-4 py-3 text-center text-red-600">
+                  {erro}
+                </td>
+              </tr>
+            ) :condominios.length === 0 ? (
               <tr>
                 <td className="px-4 py-3 text-sm text-gray-700" colSpan={7}>
                   Nenhum condomínio encontrado.

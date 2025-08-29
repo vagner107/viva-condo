@@ -1,29 +1,21 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@/utils/supabase/server"; // <-- SERVER
+import { getCondominios } from "@/services/condominio.service";
 
 // GET /api/condominios
-export async function GET() {
-  const supabase = await createClient();
-  const { data, error } = await supabase
-    .from("condominio")
-    .select("*")
-    .order("id_condominio");
+export async function GET() { 
+  try {
+    const data = await getCondominios();
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json(data, { status: 200 });
+    return NextResponse.json({
+      success: true,
+      count: data.length,
+      data,
+    }, { status: 200 });
+
+  } catch (e: any) {
+    return NextResponse.json({
+      success: false,
+      error: e.message ?? "Erro inesperado",
+    }, { status: 400 });
+  }
 }
-
-// POST /api/condominios
-// export async function POST(req: Request) {
-//   const supabase = await createClient();
-//   const body = await req.json();
-
-//   // Ex.: exigir usuário logado (RLS + policies)
-//   const { data: { session } } = await supabase.auth.getSession();
-//   if (!session) return NextResponse.json({ error: "Não autenticado" }, { status: 401 });
-
-//   const { error } = await supabase.from("condominios").insert(body);
-//   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
-
-//   return NextResponse.json({ ok: true }, { status: 201 });
-// }
