@@ -12,16 +12,14 @@ export interface ICondominio {
   }
 
 export async function getCondominios() {
-
-console.log("📡 [SERVICE] Rodando no SERVER (Node.js)");
-
+  
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("condominio")
     .select("*")
     .order("id_condominio");
 
-  if (error) throw new Error(error.message);
+  if (error) throw new Error(error.message); //exceção - objeto error.message
   return data ?? [];
 }
 

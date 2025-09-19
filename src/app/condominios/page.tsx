@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'  //useState é uma função do React que permite a um componente ter estado interno. 
 import { ICondominio } from '@/services/condominio.service';
+// import { getCondominios } from '@/services/api-condominios';
 
 export default function ListaCondominios() {
   const [condominios, setCondominios]= useState<ICondominio[]>([])
@@ -10,10 +11,9 @@ export default function ListaCondominios() {
   
   useEffect(() => { //hook que executa uma função quando o componente é montado.
     const buscarCondominios = async () => {
-      console.log("[CLIENT] Chamou /api/condominios no navegador");
       try {
         const response = await fetch("/api/condominios", { cache: "no-store" });// chama a API e sempre busca dados atualizados
-        const {data, success, count, error} = await response.json(); // transforma resposta em JSON
+        const {data, success, count, error} = await response.json(); // obtem resposta em JSON
 
         if (!success) throw new Error(error ?? "Erro ao buscar condomínios"); // quando acionado o catch é executado
         setCondominios(data);
@@ -73,7 +73,7 @@ export default function ListaCondominios() {
                 <tr key={condominio.id_condominio} className="hover:bg-gray-50">
                   <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{String(index + 1)}</td>
                   <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{condominio.nome_condominio}</td>
-                   <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{condominio.endereco_condominio}</td>
+                  <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{condominio.endereco_condominio}</td>
                   <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{condominio.cidade_condominio}</td>
                   <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{condominio.uf_condominio}</td>
                   <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{condominio.tipo_condominio}</td>
