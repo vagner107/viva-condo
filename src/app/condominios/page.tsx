@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react'  //useState é uma função do React que permite a um componente ter estado interno. 
 import { ICondominio } from '@/services/condominio.service';
-// import { getCondominios } from '@/services/api-condominios';
 
 export default function ListaCondominios() {
   const [condominios, setCondominios]= useState<ICondominio[]>([])
@@ -24,7 +23,6 @@ export default function ListaCondominios() {
         setLoading(false);
       }      
     };
-
     buscarCondominios()
   }, []) // [] = executa apenas uma vez, quando o componente é montado.
   // Caso haja alguma váriavel no array, o efeito será executado novamente sempre que essa variável mudar.

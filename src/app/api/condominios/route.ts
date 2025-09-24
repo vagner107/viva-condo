@@ -5,7 +5,7 @@ import { getCondominios } from "@/services/condominio.service";
 export async function GET() { 
   try {
     const data = await getCondominios();
-
+  
     return NextResponse.json({
       success: true,
       count: data.length,
