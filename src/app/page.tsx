@@ -11,13 +11,10 @@ export default function Login() {
   const [checkingSession, setCheckingSession] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      
+      const { data: { session } } = await supabase.auth.getSession();      
       if (session?.user) {
         router.replace("/condominios");
       } else {
@@ -28,28 +25,18 @@ export default function Login() {
   }, []);
 
   const login = async (e: React.FormEvent) => {
-    e.preventDefault(); // Impede o reload da página
-    setLoading(true);
+    e.preventDefault(); // Impede o reload da página após o submit
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-
-     if (error) {
-        if (error.code === "invalid_credentials") {
-          setError("E-mail ou senha inválidos");
-          return;
-        }
-        throw new Error(error.message);
-      }
-      router.replace("/condominios");
-    } catch (err) {
-      setError("Erro inesperado. Tente novamente.");
-    } finally {
-      setLoading(false);
+    if (error || !data.user) {
+      return;
     }
+    router.replace("/condominios");
   };
 
-  //  Sem essa verificação, ao acessar a raiz LOGADO, ele por um segundo ainda aparece a tela de login antes de redirecionar para dashboard. 
+
+  //  Sem essa verificação, ao acessar a raiz LOGADO, ele 
+  // por um segundo ainda aparece a tela de login antes de redirecionar para dashboard. 
   if (checkingSession) {
     return null;
   }
@@ -77,13 +64,10 @@ export default function Login() {
               className="w-full p-3 mb-4 border rounded-md focus:ring-2 focus:ring-blue-500"
               required
             />
-            {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
-            <button
-              type="submit"
+            <button type="submit"
               className="w-full bg-gradient-to-r from-blue-500 to-green-500 text-white p-3 rounded-md hover:opacity-90 transition-all disabled:opacity-50"
-              disabled={loading}
             >
-              {loading ? "Entrando..." : "Entrar"}
+            {"Entrar"}
             </button>
           </form>
         </div>

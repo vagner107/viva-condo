@@ -12,8 +12,8 @@ export default function ListaCondominios() {
   useEffect(() => { //hook que executa uma função quando o componente é montado.
     const buscarCondominios = async () => {
       try {
-        const response = await fetch("/api/condominios", { cache: "no-store" });// chama a API e sempre busca dados atualizados
-        const {data, success, count, error} = await response.json(); // obtem resposta em JSON
+        const response = await fetch("/api/condominios", { cache: "no-store" });
+        const {data, success, count, error} = await response.json();
 
         if (!success) throw new Error(error ?? "Erro ao buscar condomínios"); // quando acionado o catch é executado
         setCondominios(data);
