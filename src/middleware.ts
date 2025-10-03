@@ -1,4 +1,3 @@
-// middleware.ts
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
@@ -15,11 +14,11 @@ export async function middleware(req: NextRequest) {
     {
       cookies: {
         getAll: () => {
-          console.log("📥 Cookies lidos:", req.cookies.getAll());
+          console.log("📍 Cookies lidos:", req.cookies.getAll());
           return req.cookies.getAll();
         },
         setAll: (cookiesToSet) => {
-          console.log("📤 Cookies a serem setados:", cookiesToSet);
+          console.log("📍 Cookies a serem setados:", cookiesToSet);
           // atualiza cookies no request
           cookiesToSet.forEach(({ name, value }) => req.cookies.set(name, value));
           // recria resposta com novos cookies
@@ -35,8 +34,8 @@ export async function middleware(req: NextRequest) {
   console.log("🔎 Checando usuário autenticado...");
   const { data: { user } } = await supabase.auth.getUser();
 
-  console.log("👤 Usuário no middleware:", user);
-  console.log("📍 Path acessado:", req.nextUrl.pathname);
+  console.log("🔵 Usuário no middleware:", user);
+  console.log("🔵 Path acessado:", req.nextUrl.pathname);
 
   // se não logado, redireciona para /
   if (!user) {
