@@ -15,16 +15,16 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // const checkSession = async () => {
-    //   const { data: { session } } = await supabase.auth.getSession();
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
       
-    //   if (session?.user) {
-    //     router.replace("/condominios");
-    //   } else {
-    //     setCheckingSession(false); 
-    //   }
-    // };
-    // checkSession();
+      if (session?.user) {
+        router.replace("/condominios");
+      } else {
+        setCheckingSession(false); 
+      }
+    };
+    checkSession();
   }, []);
 
   const login = async (e: React.FormEvent) => {
@@ -42,6 +42,8 @@ export default function Login() {
         throw new Error(error.message);
       }
       router.replace("/condominios");
+      router.refresh();
+
     } catch (err) {
       setError("Erro inesperado. Tente novamente.");
     } finally {
@@ -50,9 +52,9 @@ export default function Login() {
   };
 
   //  Sem essa verificação, ao acessar a raiz LOGADO, ele por um segundo ainda aparece a tela de login antes de redirecionar para dashboard. 
-  // if (checkingSession) {
-  //   return null;
-  // }
+  if (checkingSession) {
+    return null;
+  }
 
   return (
     <div className="flex h-screen flex-col md:flex-row">

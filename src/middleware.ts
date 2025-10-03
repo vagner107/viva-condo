@@ -56,7 +56,7 @@ export const config = {
     "/condominios/:path*",
     "/usuarios/:path*",
     "/moradores/:path*",
-    "/configuracoes/:path*",
+    "/configuracoes/:path*"
   ],
 };
 
