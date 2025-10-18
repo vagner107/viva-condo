@@ -2,13 +2,30 @@
 
 import { useEffect, useState } from 'react'  //useState é uma função do React que permite a um componente ter estado interno. 
 import { ICondominio } from '@/services/condominio.service';
+import { FaSearch } from "react-icons/fa";
 // import { ICondominio } from '@/services/condominio.local.service'; //LOCAL REQUEST
 
 export default function ListaCondominios() {
   const [condominios, setCondominios]= useState<ICondominio[]>([])
   const [erro, setErro] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+   // Estado para capturar o termo digitado na busca
+  const [searchQuery, setSearchQuery] = useState("");
+
+   // Filtra os condomínios com base no termo de busca digitado
+  const condominiosFiltrados = condominios.filter((c) => {
+    const query = searchQuery.toLowerCase();
+    return (
+      c.nome_condominio.toLowerCase().includes(query) ||
+      c.cidade_condominio.toLowerCase().includes(query) ||
+      c.uf_condominio.toLowerCase().includes(query) ||
+      c.tipo_condominio.toLowerCase().includes(query) ||
+      c.endereco_condominio.toLowerCase().includes(query)
+    );
+  });
   
+  
+
   useEffect(() => { //hook que executa uma função quando o componente é montado.
     const buscarCondominios = async () => {
       try {
@@ -25,13 +42,29 @@ export default function ListaCondominios() {
       }      
     };
     buscarCondominios()
-  }, []) // [] = executa apenas uma vez, quando o componente é montado.
+  }, []);// [] = executa apenas uma vez, quando o componente é montado.
   // Caso haja alguma váriavel no array, o efeito será executado novamente sempre que essa variável mudar.
 
   return (
     <div className="p-6 max-w-full">
       <div className="mb-4 flex items-center justify-between gap-4">
         <h1 className="text-xl font-semibold">Condomínios</h1>
+      </div>
+
+      {/* Barra de busca e filtros */}
+      <div className="mb-4 flex justify-between gap-4">
+        <div className="relative w-64">
+          <span className="absolute inset-y-0 left-3 flex items-center">
+            <FaSearch className="h-4 w-4 text-gray-400" />
+          </span>
+          <input
+            type="text"
+            placeholder="Pesquisar"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-10 pr-4 py-2 w-full rounded-md border border-gray-200 focus:outline-none focus:ring-1 focus:ring-primary text-sm"
+          />
+        </div>
       </div>
 
       <div className="bg-white rounded-md border border-gray-200 overflow-hidden">
@@ -68,7 +101,7 @@ export default function ListaCondominios() {
                 </td>
               </tr>
             ) : (
-              condominios.map((condominio, index) => (
+              condominiosFiltrados.map((condominio, index) => (
                 <tr key={condominio.id_condominio} className="hover:bg-gray-50">
                   <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{String(index + 1)}</td>
                   <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{condominio.nome_condominio}</td>
