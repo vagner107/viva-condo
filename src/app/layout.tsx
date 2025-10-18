@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Menu from "../components/menu";
-import { createClient } from "@/utils/supabase/server"; // server-side client
+import { createClient } from "@/utils/supabase/server";
 
 const supabase = createClient();
 
@@ -40,8 +40,7 @@ export default async function RootLayout({
         {/* Menu fixo à esquerda */}
         {showMenu && <Menu />}
 
-        {/* Conteúdo principal (children = páginas) */}
-        <main className={`${showMenu ? "ml-64" : ""} flex-1 p-6`}>{children}</main>
+        <div className={`${showMenu ? "ml-64" : ""} flex-1 p-6`}>{children}</div>
         {/* {children} */}
       </body>
     </html>

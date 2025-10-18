@@ -6,8 +6,7 @@ import { usePathname } from "next/navigation";
 import {FaUsers,FaSignOutAlt,FaBuilding} from "react-icons/fa";
 import { createClient } from "@/utils/supabase/client";
 
-
-const MENU_ITEMS = [
+const menu_items = [
   { href: "/condominios", label: "Condomínios", icon: FaBuilding },
   { href: "/usuarios", label: "Usuarios", icon: FaUsers },
 ];
@@ -16,29 +15,28 @@ export default function Menu() {
     const pathname = usePathname();
 
     function isActive(href: string) {
-        return pathname === href || pathname.startsWith(`${href}/`); //pathname.startsWith garante  exemplos usuarios/123
+        return pathname === href || pathname.startsWith(`${href}/`); //pathname.startsWith garante exemplos usuarios/123
     }
 
     const logout = async () => {
         const supabase = createClient();
-        const { error } = await supabase.auth.signOut();
+        const { error } = await supabase.auth.signOut(); // Promisse
         if (!error) window.location.href = "/";
     };
 
+
     return (
         <aside
-            className="fixed left-0 top-0 flex h-screen w-64 flex-col bg-white p-4 shadow-md"
-            aria-label="Menu principal"
-        >
+            className="fixed left-0 top-0 flex h-screen w-64 flex-col bg-white p-4 shadow-md">
             {/* Logo */}
             <div className="mb-8 flex items-center gap-2 px-4">
-            SEU LOGO IRÁ AQUI
+            Viva Condo
             </div>
 
             {/* Menu Items */}
             <nav className="flex-1">
                 <ul className="space-y-2">
-                    {MENU_ITEMS.map(({ href, label, icon: Icon }) => {
+                    {menu_items.map(({ href, label, icon: Icon }) => {
                     const active = isActive(href);
                     return (
                         <li key={href}>

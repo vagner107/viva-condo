@@ -33,8 +33,8 @@ export default function Login() {
 
     try {
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-
-     if (error) {
+      
+      if (error) {
         if (error.code === "invalid_credentials") {
           setError("E-mail ou senha inválidos");
           return;
@@ -44,8 +44,8 @@ export default function Login() {
       router.replace("/condominios");
       router.refresh();
 
-    } catch (err) {
-      setError("Erro inesperado. Tente novamente.");
+    } catch (err: any) {
+      setError(err.message ?? "Erro inesperado");
     } finally {
       setLoading(false);
     }
