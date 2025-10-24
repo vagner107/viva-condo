@@ -14,9 +14,10 @@ export default function ListaCondominios() {
 
    // Filtra os condomínios com base no termo de busca digitado
   const condominiosFiltrados = condominios.filter((c) => {
+    console.log("condominiosFiltrados", c)
     const query = searchQuery.toLowerCase();
     return (
-      c.nome_condominio.toLowerCase().includes(query) ||
+      c.nome_condominio.toLowerCase().includes(query) || // verifica se o resultado de query esta incluido dentro de c.nome_condominio
       c.cidade_condominio.toLowerCase().includes(query) ||
       c.uf_condominio.toLowerCase().includes(query) ||
       c.tipo_condominio.toLowerCase().includes(query) ||
@@ -94,7 +95,7 @@ export default function ListaCondominios() {
                   {erro}
                 </td>
               </tr>
-            ) :condominios.length === 0 ? (
+            ) :condominiosFiltrados.length === 0 ? (
               <tr>
                 <td className="px-4 py-3 text-sm text-gray-700" colSpan={7}>
                   Nenhum condomínio encontrado.
