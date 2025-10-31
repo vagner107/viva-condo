@@ -3,6 +3,9 @@
 import { useEffect, useState } from 'react'  //useState é uma função do React que permite a um componente ter estado interno. 
 import { ICondominio } from '@/services/condominio.service';
 import { FaSearch } from "react-icons/fa";
+import { DropdownActions } from "@/components/dropdown";
+import { ConfirmDialog } from "@/components/confirmDialog";
+import { showToast } from "@/components/toastNotification";
 // import { ICondominio } from '@/services/condominio.local.service'; //LOCAL REQUEST
 
 export default function ListaCondominios() {
@@ -11,10 +14,12 @@ export default function ListaCondominios() {
   const [loading, setLoading] = useState(true);
    // Estado para capturar o termo digitado na busca
   const [searchQuery, setSearchQuery] = useState("");
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false); // status para abrir dialog 
+  const [selectedId, setSelectedId] = useState<number | null>(null);  // id do condominio
+  const [selectedName, setSelectedName] = useState<string | null>(null); // select nome do condominio
 
    // Filtra os condomínios com base no termo de busca digitado
   const condominiosFiltrados = condominios.filter((c) => {
-    console.log("condominiosFiltrados", c)
     const query = searchQuery.toLowerCase();
     return (
       c.nome_condominio.toLowerCase().includes(query) || // verifica se o resultado de query esta incluido dentro de c.nome_condominio
@@ -45,6 +50,44 @@ export default function ListaCondominios() {
     buscarCondominios()
   }, []);// [] = executa apenas uma vez, quando o componente é montado.
   // Caso haja alguma váriavel no array, o efeito será executado novamente sempre que essa variável mudar.
+
+  const confirmarExclusao = async () => {
+    if (!selectedId) return;
+
+    
+    try {
+      console.log(selectedId)
+      const response = await fetch(`/api/condominios/${selectedId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        cache: "no-store",
+      });
+      const {data, success, count, error} = await response.json();
+
+      console.log("Dados",data, success, count, error)
+      if (!success){
+        throw new Error(error ?? "Erro ao buscar condomínios"); // quando acionado o catch é executado
+      }
+
+      setCondominios(prev =>
+        prev.filter((c) => c.id_condominio !== selectedId)
+      );
+      console.log("SUCESSO")
+      showToast({ type: "success", message: "Condomínio excluído com sucesso",description: "teste" });
+      setDeleteDialogOpen(false);
+      setSelectedId(null);
+      // setIsEditing(false);
+
+    } catch (e: any) {
+      showToast({ type: "error", message: e.message ?? "Erro inesperado"});
+    } finally {
+      setLoading(false);
+    }      
+  
+
+  };
 
   return (
     <div className="p-6 max-w-full">
@@ -110,13 +153,35 @@ export default function ListaCondominios() {
                   <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{condominio.cidade_condominio}</td>
                   <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{condominio.uf_condominio}</td>
                   <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{condominio.tipo_condominio}</td>
-                  <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500"></td>
+                  <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+                    <DropdownActions      
+                      onDelete={() => {
+                        setSelectedId(condominio.id_condominio);
+                        setSelectedName(condominio.nome_condominio);
+                        setDeleteDialogOpen(true);
+                      }}
+                    />
+                  </td>
                 </tr>
               ))
             )}
           </tbody>
         </table>
       </div>
+       <ConfirmDialog
+        title="Excluir condomínio"
+        description={
+          <>
+            Tem certeza de que deseja excluir o condomínio {" "}
+            <strong className="text-gray-800"> {selectedName}</strong>? 
+            <br />
+            <span className="text-red-800">Todos os moradores vinculados a este condomínio também serão excluídos.Esta ação não poderá ser desfeita.</span> 
+          </>
+        }
+        isOpen={deleteDialogOpen}
+        setIsOpen={setDeleteDialogOpen}
+        onConfirm={confirmarExclusao}
+      />
     </div>
   );
 }

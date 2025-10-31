@@ -20,4 +20,15 @@ export async function getCondominios() {
   return data ?? [];
 }
 
+export async function deleteCondominio(id: string) {
+  const supabase = await createClient();
+
+  // Executa exclusão no Supabase
+  const { error } = await supabase.from("condominio").delete().eq("id_condominio", id);
+
+  // Se houver erro, lança exceção
+  if (error) throw new Error(error.message);
+
+  return true;
+}
  
